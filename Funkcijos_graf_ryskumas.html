@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>
+			Funkcijos grafikas su ryskumais
+		</title>
+		<style>
+			table {
+				border-collapse: collapse;
+			}
+			th, td {
+				border: 1px solid black;
+				padding: 3px 4px 3px 4px;
+			}
+		</style>
+		<script>
+
+				
+				 
+			function skaiciavimas() {
+																																							    /* --- Duomenų įvedimas  --- */
+				var E_prad=parseFloat ( document.getElementById( "E_prad" ).value );
+				var E_gal=parseFloat ( document.getElementById( "E_gal" ).value );
+				var E_etalonine=parseFloat ( document.getElementById( "E_etalonine" ).value );
+				//var dE=parseFloat ( document.getElementById( "dE" ).value );
+				//var m_etalonine=parseFloat ( document.getElementById( "m_etalonine " ).value );
+				//var m= parseFloat ( document.getElementById( "m" ).value ); 
+				
+				
+				
+				
+				
+				rez_str = 'Ivesti duomenys: <br>';
+				
+				E_etalonine = 1000.0; // ar parasyti tik Vega?	
+				
+				E = E_prad;
+				skirt_m_etalonine_ir_m = 2.5 * Math.log (E_etalonine/ E) / Math.LN10;
+				dE = (E_gal - E_prad) / 19;
+				
+				
+				//rez_str += ' E etaloninė: ' + E + '<br>';
+				//rez_str += ' E prad: ' + E_prad + '<br>';
+				//rez_str += ' E gal: ' + E_gal + '<br>';
+				
+			
+				
+				rez_str += '<table id="rez">';
+				rez_str += '<tr><th rowspan="3">E</th><th rowspan="3">m_etalonine - m</th></tr>'
+				//rez_str += '<tr><th>jėga</th><th>pokytis</th>';
+		
+				
+				 
+				
+				//for ( E = E_prad; E < E_gal ; E +=dE) {
+				
+					dE = (E_gal - E_prad) / 19;
+					
+					E_prad += dE;
+					
+					
+					
+					
+					
+					
+					//rez_str += '<tr><td>' + E +  ' </td><td>'+ m_etalonine - m + '</tr>';
+				
+				
+				
+				//reikia rasti E ir m_etalonine!
+				
+				//}
+				
+					
+					
+					
+				
+			'</table>'   //lenteles uzdarymas nepamirst prideti, kai norėsiu užbaigti ją.																									// --- punktyrine vertikali				
+								
+				
+				rez_str += '<br>';
+				
+
+				rez = document.getElementById( "rez" );
+				rez.innerHTML =rez_str;
+	}
+	
+		</script>
+	</head>
+	<body>
+	
+	Ryškumo funkcijos grafikas<br><br>
+		
+		
+		<br>
+
+		E prad reikšmė:<br>
+		<input type="text" id="E_prad" value="10"><br>
+		E gal reikšmė:<br>
+		<input type="text" id="E_gal" value="50"><br>
+		
+		<input type="button" onClick="skaiciavimas()" value="skaiciuoti">
+		<div id="rez">
+		</div>
+		<canvas id="grafikas" width="400" height="400" style="border: 1px solid black">			
+		</canvas>
+	</body>
+</html>
