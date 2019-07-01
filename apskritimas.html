@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>
+			apskritimas
+		</title>
+		</head>
+		<style>
+			
+		</style>
+		<script>
+		
+			function taskas ( x, y ) {
+				
+				this.x = x;
+				this.y = y;
+			}
+				// pakimba jeigu sitoj vietoj
+			
+			var piesimo_srits ;
+			
+			function pradetiClick() {
+			
+				var c = document.getElementById("molbertas");
+				piesimo_srits = c.getContext("2d");	
+				document.getElementById("apskritimas" ).disabled = false;
+				document.getElementById("trikampis" ).disabled = false;
+				document.getElementById("pagal_taskus" ).disabled = false;
+				
+	/*			kiek_tasku = tasku_masyvas.length;
+				
+				for (var i= kiek_tasku; i< kiek_tasku  + 10; i++) {
+				
+					tasku_masyvas.push ("taskas" + i);
+					
+				}
+				
+				alert(tasku_masyvas);		*/		
+			}
+			
+			function apskritimas (x, y, radius) {
+				
+				this.x =  x;
+				this.y =  y;
+				this.radius = radius;
+				this.draw = function () {
+				
+					piesimo_srits.beginPath();
+					piesimo_srits.arc(x, y, radius, 0, 2 * Math.PI);
+					piesimo_srits.stroke();
+					piesimo_srits.fillStyle = 'rgba(0,255,0,1)'; 
+					piesimo_srits.fill();
+					
+				}
+			}
+			
+			function daugiakampis ( taskai ) {
+			
+				var tasku_masyvas = [];  
+				
+				for ( i = 0; i < taskai.length; i+=2 ) {
+				
+					tasku_masyvas.push (
+						new taskas ( parseInt ( taskai [ i ] ), parseInt ( taskai [ i + 1 ] ) )
+					);
+				}
+			
+				this.draw = function() {
+																//		tasku_masyvas_str = "";				
+					piesimo_srits.moveTo ( tasku_masyvas [ 0 ].x, tasku_masyvas [ 0 ].y );
+					
+					for( i=1; i< tasku_masyvas.length; i++ ) {
+																// 	tasku_masyvas_str += "x" + i + " "  + tasku_masyvas [ i ].x + " y" + i + " "  + tasku_masyvas [ i ].y + "\n";					
+						piesimo_srits.lineTo (  tasku_masyvas [ i ].x, tasku_masyvas [ i ].y  );
+					}
+					piesimo_srits.closePath();
+					piesimo_srits.stroke();				
+				}
+			}
+
+			function pagalTaskus () {
+			
+				taskai = document.getElementById ( "taskai" ).value.split( "," );
+				
+				daugiakamp = new daugiakampis ( taskai );
+				daugiakamp.draw();
+
+				// alert ( tasku_masyvas_str );
+			}
+			
+			function apskritimasClick () {
+
+				var x = parseInt ( document.getElementById ("x").value );
+				var y = parseInt ( document.getElementById ("y").value );
+				var radius = parseInt ( document.getElementById ("radius").value );				
+				
+				apskritimas1 = new apskritimas (x, y, radius);	
+				apskritimas1.draw();
+				
+			}			
+
+				//rez = document.getElementById( "rez" );
+				//rez.innerHTML =rez_str;
+		
+		</script>		
+		<body>
+		<canvas id="molbertas" width="400" height="200" style="border: 1px solid black">			
+		</canvas><br>
+		<input type="button" id="pradeti" onClick="pradetiClick()" value="pradeti"><br>
+		<input type="button" id="apskritimas" onClick="apskritimasClick()" value="apskritimas" disabled><br>
+		<input type="button" id="trikampis" onClick="trikampisClick()" value="trikampis" disabled><br>
+
+	
+		x reiksme :<br>
+		<input type="text" id="x" value="200"><br>
+		y reiksme:<br>
+		<input type="text" id="y" value="110"><br>
+		spindulys(radius):<br>
+		<input type="text" id="radius" value="60"><br>
+		taskai:<br>
+		<input type="text" id="taskai" style="width: 300px" value="10,10,20,20,10,40,50,60"><br>
+		<input type="button" id="pagal_taskus" onClick="pagalTaskus()" value="pagal taskus" disabled><br>
+		<div id="rez">
+		</div>
+
+
+
+		
+	</body>
+</html>
