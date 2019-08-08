@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>
+			2 kūnai
+		</title>
+		<style>
+			table {
+				border-collapse: collapse;
+			}
+			th, td {
+				border: 1px solid black;
+				padding: 3px 4px 3px 4px;
+			}
+		</style>
+		<script>
+
+			var gr_prad_x = 90;
+			var gr_prad_y = 50;
+			var gr_dydis = 300;
+			var gr_plotis = 300;
+			var gr_dx = 3;
+			var gr_kord_ap = 10;
+			var gr_kord_kair = 10;			
+			var sk_atskaitu = 100;
+			var G = 6.67e-11;			
+				 
+			function skaiciavimas() {
+																								// alert ( 'Hi' );
+
+																			    /* --- Duomenų įvedimas  --- */
+				var m1=parseFloat ( document.getElementById( "m1" ).value );
+				var m2=parseFloat ( document.getElementById( "m2" ).value );
+				var r_prad=parseFloat ( document.getElementById( "r_prad" ).value );
+				var r_gal=parseFloat ( document.getElementById( "r_gal" ).value   );
+				
+				var rez_str = 'Ivesti duomenys:<br>';
+						
+				rez_str += ' kuno masės m1 = ' + m1 + '  m2= ' + m2 + '<br>';
+				rez_str += '  atstumas nuo r ' + r_prad + '  m2= ' + r_gal + '<br>';
+				
+				rez_str += '<table id="rez">';
+				rez_str += '<tr><th rowspan="2">atstumas</th><th colspan="2">traukos</th></tr>'
+				rez_str += '<tr><th>jėga</th><th>pokytis</th>';
+				 
+				var rx = ( r_gal - r_prad ) / ( sk_atskaitu - 1 ); 											// atstumo keitimo žingsnis
+				
+				var r = r_prad;
+				
+				var Fprad = G * ( m1 * m2 ) / ( r * r );
+				
+				var F = [];
+				
+				var pokytis_min = 1; 
+				var pokytis_max = 1;
+				var pokytis = [];
+				
+				for (var i = 0; i<sk_atskaitu; i++ ) {
+				
+					F = G * ( m1 * m2 ) / ( r * r );
+					pokytis.push ( F  / Fprad );
+				
+					rez_str += '<tr><td>' + r + '</td><td>' + F  + '</td><td>' + pokytis [ i ].toFixed (2 ) + '</td></tr>';
+					
+					if  ( pokytis [ i ] > pokytis_max ) {
+					
+						pokytis_max = pokytis [ i ];
+					}
+					
+					if ( pokytis [ i ]  < pokytis_min ) {
+					
+						pokytis_min = pokytis [ i ];
+					}
+					r += rx;
+				}
+				rez_str += '</table>';	
+				
+				rez_str += 'pokyčio ribos nuo ' + pokytis_min + ' iki ' + pokytis_max + '<br>';
+				
+				 var canv = document.getElementById ( "grafikas" );
+				 var ctx = canv.getContext ( "2d" );
+				 
+				 x_pos  =  gr_prad_x;
+
+				for ( i = 0; i<sk_atskaitu; i++ ) {
+				
+					x_pos += gr_dx;
+					y_pos =  parseInt ( gr_prad_y + gr_dydis - (  ( pokytis [ i ] - pokytis_min  ) / ( pokytis_max - pokytis_min )  )  * gr_dydis ) ;
+																														//rez_str += ' ' + y_pos;
+					if ( i == 0 ) {
+					
+						ctx.moveTo ( x_pos, y_pos );
+						
+					} else {
+					
+						ctx.lineTo (x_pos, y_pos );
+					}
+				}
+																														// ----- y ašis -------
+				ctx.moveTo ( gr_prad_x, gr_prad_y - gr_kord_ap);
+				ctx.lineTo ( gr_prad_x,  gr_prad_y + gr_dydis + gr_kord_ap );
+																														// ----- x ašis -------				
+				ctx.moveTo ( gr_prad_x - gr_kord_kair, gr_prad_y + gr_dydis );
+				ctx.lineTo ( gr_prad_x +  gr_plotis, gr_prad_y + gr_dydis );
+																														// --- punktyrine horizontali
+				dx = gr_plotis / 19;
+				dx2 = gr_plotis / 39;
+				
+				x = gr_prad_x - gr_kord_kair;
+				
+				for ( i = 0; i < 20; i++ ) {
+				
+					ctx.moveTo ( x , gr_prad_y );
+					ctx.lineTo ( x + dx2, gr_prad_y );
+
+					x+= dx;
+				}
+																														// --- punktyrine vertikali				
+				dy = gr_dydis / 19;
+				dy2 = gr_dydis / 39;
+				
+				y = gr_prad_y - gr_kord_ap;
+				
+				for ( i = 0; i < 20; i++ ) {
+				
+					ctx.moveTo ( gr_prad_x + gr_dydis, y );
+					ctx.lineTo ( gr_prad_x + gr_dydis, y + dy2 );
+
+					y+= dy;
+				}
+
+				ctx.stroke();
+				
+				ctx.font = '16px Arial';
+				ctx.strokeText(  pokytis_max.toFixed (3), 0,  gr_prad_y - gr_kord_ap );
+				ctx.strokeText(  pokytis_min.toFixed (3), 0,  gr_prad_y  + gr_dydis );				
+				
+				rez_str += '<br>';
+
+				rez = document.getElementById( "rez" );
+				rez.innerHTML =rez_str;
+			}
+		</script>
+	</head>
+	<body>
+		Traukos jegos F tarp dviejų kūnu m1 ir m2 kitimo priklausomybe nuo atstumo r, intervale (r_prad ir r_gal) pagal formule: <br>
+		<br>
+		F = G * ( m1 * m2 ) / r<sup>2</sup> <br>
+		<br>
+		pirmo kuno mase (m1):<br>
+		<input type="text" id="m1" value="10000"><br>
+		antro kuno mase (m2):<br>
+		<input type="text" id="m2" value="10000"><br>
+		pradinis atstumas (r_prad):<br>
+		<input type="text" id="r_prad" value="100"><br>
+		galutinis atstumas (r_gal):<br>
+		<input type="text" id="r_gal" value="10"><br>
+		<input type="button" onClick="skaiciavimas()" value="skaiciuoti">
+		<div id="rez">
+		</div>
+		<canvas id="grafikas" width="400" height="400" style="border: 1px solid black">			
+		</canvas>
+	</body>
+</html>

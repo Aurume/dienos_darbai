@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>
+			Funkcijos grafikas
+		</title>
+		<style>
+			table {
+				border-collapse: collapse;
+			}
+			th, td {
+				border: 1px solid black;
+				padding: 3px 4px 3px 4px;
+			}
+		</style>
+		<script>
+
+			//var x_prad = 0;
+			//var x_gal = ;
+			//dx = 0 ;
+			//y = ?;
+						
+				 
+			function skaiciavimas() {
+																																							    /* --- Duomenų įvedimas  --- */
+				var x_prad=parseFloat ( document.getElementById( "x_prad" ).value );
+				var x_gal=parseFloat ( document.getElementById( "x_gal" ).value );
+				var x =parseFloat ( document.getElementById( "x" ).value );
+				var dx =parseFloat ( document.getElementById( "dx" ).value );
+				var y =parseFloat ( document.getElementById( "y" ).value );
+				
+				
+				
+				rez_str = 'Ivesti duomenys: <br>';
+						
+				rez_str += ' x prad: ' + x_prad + '<br>';
+				//rez_str += ' x gal: ' + x_gal + '<br>';
+				
+				//rez_str += 'y reikšmė:' + y + '<br>';
+				
+				//rez_str += '<table id="rez">';
+				//rez_str += '<tr><th rowspan="3">x_prad</th><th rowspan="3">x_gal</th></tr>'
+				//rez_str += '<tr><th>jėga</th><th>pokytis</th>';
+		
+				
+				 
+				
+				var x = x_prad;
+				
+				var dx =  (x_gal - x_prad) / 19;
+				var x = 0;
+				var y = 0;
+				var x +=dx;
+				
+				
+				//for ( x = x_prad; x_gal < 19; x +=dx) {
+				
+					//dx = (x_gal - x_prad) / 19;
+					
+					//x_prad += dx;
+					//rez_str += x_prad + ' ' + x_gal + '<br>';
+				
+				//reikia rasti x!
+				
+				//}
+				
+					
+					
+					
+				
+			'</table>'   //lenteles uzdarymas nepamirst prideti, kai norėsiu užbaigti ją.																									// --- punktyrine vertikali				
+								
+				
+				rez_str += '<br>';
+				
+
+				rez = document.getElementById( "rez" );
+				rez.innerHTML =rez_str;
+	}
+	
+		</script>
+	</head>
+	<body>
+	
+		x prad ir x gal reikšmių lentelė<br><br>
+		y = log<sub>10</sub>a = l * g * a;<br>
+		
+		<br>
+
+		x prad reikšmė:<br>
+		<input type="text" id="x_prad" value="10"><br>
+		
+		<input type="button" onClick="skaiciavimas()" value="skaiciuoti">
+		<div id="rez">
+		</div>
+		<canvas id="grafikas" width="400" height="400" style="border: 1px solid black">			
+		</canvas>
+	</body>
+</html>
